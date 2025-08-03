@@ -1,42 +1,45 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("registration-form");
+    const feedbackDiv = document.getElementById("form-feedback");
 
-document.getElementById("registration-form").addEventistener("submit, function(event) {
-event.preventDefault();
+    form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent form submission
+        console.log("Form submission intercepted for validation");
 
-console.log("form submission intercepted for validation");
-});
+        // Get and trim input values
+        const email = document.getElementById("email").value.trim();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-const form = document.getElementById("registration-form");
-const email = document.getElementById("email").value.trim();
-const username = document.getElementById("username").value.trim();
-const password = document.getElementById("password").value.trim();
-const feedbackDiv = document.getElementById("form-feedback");
+        // Validation logic
+        let isValid = true;
+        let messages = [];
 
-});
+        if (username.length < 3) {
+            isValid = false;
+            messages.push("Username must be at least 3 characters long.");
+        }
 
-let isValid = true;
-let messages = [];
+        if (!email.includes("@") || !email.includes(".")) {
+            isValid = false;
+            messages.push("Email must include '@' and '.' characters.");
+        }
 
-if(username.length < 3) {
-   isValid === false;
-   messages.push("username must be 3 characters long.");
-}
+        if (password.length < 8) {
+            isValid = false;
+            messages.push("Password must have at least 8 characters.");
+        }
 
-if(!email.includes("@") || !email.includes(".")) {
- isValid= false;
- messages.psh("username must include '@' and '.' characters");
-}
+        // ✅ Ensure the feedback div is visible
+        feedbackDiv.style.display = "block";
 
-if(password.length < 8) {
- isValid= false;
- messages.push("password must have atleast 8 characters");
-}
-
-if(isValid) {
-feedbackDiv.textContent = "Registration successful!";
-feedbackDiv.style.color = "#28a745";
- } else {
-feedbackDiv.innerHTML = messages.joi("<br>");
-feedbackDiv.style.color = "#dc3545";
- }
+        if (isValid) {
+            feedbackDiv.textContent = "Registration successful!";
+            feedbackDiv.style.color = "#28a745";
+        } else {
+            // Use messages.join("<br>") to show all errors
+            feedbackDiv.innerHTML = messages.join("<br>");
+            feedbackDiv.style.color = "#dc3545";
+        }
+    });
 });
